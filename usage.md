@@ -6,26 +6,26 @@
 
 #### Convert Single Probe
 ```bash
-# Basic conversion
-python src/cli.py convert -i input.json -o output.json
+# Basic conversion - creates output_folder/probe_name/ with metadata.json, site_map.csv, model.obj
+python src/cli.py convert -i input.json -o output_folder
 
 # With electrode CSV mapping
-python src/cli.py convert -i probe.json -e electrodes.csv -o output.json
+python src/cli.py convert -i probe.json -e electrodes.csv -o output_folder
 
 # With 3D model
-python src/cli.py convert -i probe.json -s model.stl -o output.json
+python src/cli.py convert -i probe.json -s model.stl -o output_folder
 
 # Full conversion with all inputs
 python src/cli.py convert \
     -i probe.json \
     -e electrodes.csv \
     -s model.stl \
-    -o output.json
+    -o output_folder
 ```
 
 #### Batch Conversion
 ```bash
-# Convert all JSON files in directory
+# Convert all JSON files in directory - creates multiple probe folders
 python src/cli.py batch -i input_dir -o output_dir
 
 # With custom pattern
@@ -34,7 +34,8 @@ python src/cli.py batch -i input_dir -o output_dir -p "*_probe.json"
 
 #### Validate Output
 ```bash
-python src/cli.py validate output_file.json
+# Validate probe folder
+python src/cli.py validate output_folder/probe_name
 ```
 
 ### Command Options
@@ -50,7 +51,7 @@ Convert Options:
   -i, --input FILE     Input SpikeInterface JSON file (required)
   -e, --electrodes CSV Optional electrode mapping CSV
   -s, --stl FILE       Optional STL 3D model file
-  -o, --output FILE    Output Pinpoint JSON file (required)
+  -o, --output DIR     Output directory - creates probe_name/ folder (required)
   --no-validate        Skip output validation
 
 Batch Options:
@@ -64,16 +65,20 @@ Batch Options:
 ### Basic Usage
 
 ```python
-from probe_converter import ProbeConverter
+from converter import ProbeConverter
 
 # Create converter instance
 converter = ProbeConverter()
 
-# Simple conversion
+# Simple conversion - creates output_folder/probe_name/ folder
 result = converter.convert_probe(
     spikeinterface_file="probe.json",
-    output_file="output.json"
+    output_file="output_folder"
 )
+
+# Access results
+print(f"Probe: {result['probe_name']}")
+print(f"Sites: {result['metadata']['sites']}")
 ```
 
 ### Advanced Usage
@@ -86,14 +91,20 @@ result = converter.convert_probe(
     spikeinterface_file="probe.json",
     electrode_csv="electrodes.csv",
     stl_file="model.stl",
-    output_file="output.json",
+    output_file="output_folder",
     validate=True
 )
 
 # Access conversion results
-print(f"Probe name: {result['probe']['name']}")
-print(f"Electrodes: {result['probe']['electrode_count']}")
-print(f"Dimensions: {result['probe']['dimensions']}")
+print(f"Probe name: {result['probe_name']}")
+print(f"Probe: {result['metadata']['name']}")
+print(f"Sites: {result['metadata']['sites']}")
+print(f"Shanks: {result['metadata']['shanks']}")
+print(f"Producer: {result['metadata']['producer']}")
+
+# Check if 3D model was generated
+if result.get('model'):
+    print("3D model included: model.obj")
 ```
 
 ### Batch Processing
