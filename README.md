@@ -15,6 +15,8 @@ Convert silicone probe data from SpikeInterface/probeinterface_library format to
 ## Installation
 
 ```bash
+# make a virtual env, (conda / mamba / uv)
+e.g. mamba create -n probinterface2pinpoint python=3.11
 # Clone repository
 git clone https://github.com/yourusername/probinterface2pinpoint.git
 cd probinterface2pinpoint
