@@ -15,6 +15,8 @@ Convert silicone probe data from SpikeInterface/probeinterface_library format to
 ## Installation
 
 ```bash
+# make a virtual env, (conda / mamba / uv)
+e.g. mamba create -n probinterface2pinpoint python=3.11
 # Clone repository
 git clone https://github.com/yourusername/probinterface2pinpoint.git
 cd probinterface2pinpoint
@@ -248,13 +250,7 @@ The converter accepts **SpikeInterface/probeinterface format** JSON files:
 - [Probe Library](https://github.com/SpikeInterface/probeinterface_library/)
 - [VirtualBrainLab Pinpoint Format](https://github.com/VirtualBrainLab/probe-library/)
 
-## Tested Probes
 
-- **Cambridge Neurotech ASSY-276-H7** - 48 channels, 6×8 electrode grid ✅
-- **Cambridge Neurotech ASSY-77-H7** - 16 channels ✅
-- **Neuropixels 1.0** - High-density silicon probe ✅
-- **Neuropixels 2.0** - Ultra-high density probe ✅
-- Custom probe configurations via JSON ✅
 
 ## Documentation
 
