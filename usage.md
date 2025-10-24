@@ -155,22 +155,27 @@ transformed = transformer.transform_electrodes(
 converter = ProbeConverter()
 
 result = converter.convert_probe(
-    spikeinterface_file="data/input/cambridgeneurotech_h7.json",
-    electrode_csv="data/input/cambridgeneurotech_h7_electrodes.csv",
-    output_file="data/output/h7_pinpoint.json"
+    spikeinterface_file="data/input/cambridgeneurotech/ASSY-276-H7.json",
+    electrode_csv="data/input/csv/ASSY-276-H7.csv",
+    output_file="data/output"
 )
 
-# Result contains 48 electrodes in 6x8 grid
+# Creates data/output/ASSY-276-H7/ folder with:
+#   - metadata.json (48 sites, Cambridge Neurotech)
+#   - site_map.csv (electrode positions)
+#   - model.obj (3D model)
 ```
 
 ### Neuropixels Probe
 
 ```python
-# Convert Neuropixels 1.0
+# Convert Neuropixels 2.0
 result = converter.convert_probe(
-    spikeinterface_file="neuropixels_1.0.json",
-    output_file="np1_pinpoint.json"
+    spikeinterface_file="data/input/imec/NP2014.json",
+    output_file="data/output"
 )
+
+# Creates data/output/NP2014/ folder with metadata and site_map
 ```
 
 ### Custom Configuration
@@ -215,41 +220,64 @@ python src/cli.py convert -i input.json -o output.json
 
 ## Output Format
 
-### Pinpoint JSON Structure
+### VirtualBrainLab Pinpoint Multi-File Format
+
+The converter creates a folder with the probe name containing:
+
+```
+output_folder/
+└── ASSY-276-H7/
+    ├── metadata.json      # Probe metadata
+    ├── site_map.csv       # Electrode positions and visibility
+    └── model.obj          # 3D model (optional)
+```
+
+### metadata.json Structure
 
 ```json
 {
-  "format_version": "1.0",
-  "timestamp": "2024-01-15T10:30:00",
-  "probe": {
-    "name": "ASSY-276-H7",
-    "manufacturer": "Cambridge Neurotech",
-    "electrode_count": 48,
-    "dimensions": {
-      "width": 225.0,
-      "height": 100.0,
-      "depth": 0.0
-    },
-    "coordinate_system": {
-      "units": "micrometers",
-      "origin": "tip",
-      "axes": "RAS"
-    }
-  },
-  "electrodes": [
-    {
-      "id": 0,
-      "position": {"x": -7.5, "y": 100.0, "z": 0.0},
-      "channel": 0,
-      "shape": "circle",
-      "shape_params": {"radius": 10}
-    }
-  ],
-  "geometry": {
-    "contour": [[-27.5, -10], [237.5, -10], ...]
-  }
+  "name": "ASSY-276-H7",
+  "type": 1001,
+  "producer": "Cambridge Neurotech",
+  "sites": 48,
+  "shanks": 1,
+  "references": "https://doi.org/...",
+  "spec": "https://www.cambridgeneurotech.com/..."
 }
 ```
+
+**Fields:**
+- `name` - Probe identifier
+- `type` - Probe type code (1001 = generic)
+- `producer` - Manufacturer name
+- `sites` - Total number of electrodes
+- `shanks` - Number of probe shanks
+- `references` - DOI or citation (optional)
+- `spec` - Specification URL (optional)
+
+### site_map.csv Structure
+
+```csv
+index,x,y,z,w,h,d,default,layer1,layer2
+0,-7.5,100.0,15.0,20.0,20.0,0.0,1,1,0
+1,22.5,100.0,15.0,20.0,20.0,0.0,1,1,0
+...
+```
+
+**Columns:**
+- `index` - Electrode ID (0-indexed)
+- `x,y,z` - Position in micrometers relative to probe tip
+- `w,h,d` - Width, height, depth (electrode dimensions)
+- `default` - Default visibility (1=visible, 0=hidden)
+- `layer1,layer2,...` - Selection layer visibility flags
+
+### model.obj Structure
+
+Wavefront OBJ format 3D model:
+- Probe tip positioned at origin (0, 0, 0)
+- Units in micrometers
+- Contains vertices (`v`), normals (`vn`), and faces (`f`)
+- Generated from STL input or probe contour geometry
 
 ## Error Handling
 
