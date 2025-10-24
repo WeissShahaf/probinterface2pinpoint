@@ -248,13 +248,7 @@ The converter accepts **SpikeInterface/probeinterface format** JSON files:
 - [Probe Library](https://github.com/SpikeInterface/probeinterface_library/)
 - [VirtualBrainLab Pinpoint Format](https://github.com/VirtualBrainLab/probe-library/)
 
-## Tested Probes
 
-- **Cambridge Neurotech ASSY-276-H7** - 48 channels, 6×8 electrode grid ✅
-- **Cambridge Neurotech ASSY-77-H7** - 16 channels ✅
-- **Neuropixels 1.0** - High-density silicon probe ✅
-- **Neuropixels 2.0** - Ultra-high density probe ✅
-- Custom probe configurations via JSON ✅
 
 ## Documentation
 
