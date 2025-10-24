@@ -1,0 +1,30 @@
+# Probe Converter Configuration
+# This file configures the conversion settings for probe data
+
+conversion:
+  coordinate_system:
+    units: micrometers  # Units for output coordinates (micrometers, millimeters, etc.)
+    origin: tip         # Origin position (tip, center, top)
+    axes: RAS          # Coordinate axes convention (RAS, XYZ)
+  orientation: vertical  # Probe orientation (vertical, angled)
+  auto_align: true      # Automatically align 3D models with electrodes
+
+validation:
+  strict_mode: false    # Enable strict validation (requires all fields)
+  check_bounds: true    # Check if coordinates are within reasonable bounds
+  max_warnings: 10      # Maximum number of warnings to display
+
+output:
+  include_metadata: true     # Include source metadata in output
+  compress_geometry: false   # Compress 3D geometry data
+  format_version: "1.0"      # Pinpoint format version
+
+processing:
+  simplify_mesh: true              # Simplify complex 3D meshes
+  max_mesh_faces: 10000           # Maximum faces in simplified mesh
+  electrode_matching_tolerance: 10.0  # Tolerance for electrode matching (micrometers)
+
+logging:
+  level: INFO    # Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null     # Log file path (null for no file logging)

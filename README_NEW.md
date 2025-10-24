@@ -30,15 +30,16 @@ python tests/test_cambridge_h7.py
 - [Installation Guide](installation.md) - Setup instructions
 - [Usage Guide](usage.md) - Detailed usage examples
 - [File Structure](file_structure_tree.md) - Project organization
-- [Full Documentation](DOCUMENTATION.md) - Comprehensive reference
+- [API Documentation](DOCUMENTATION.md) - Full documentation
 
-## Tested Probes
+## Supported Probes
 
-- **Cambridge Neurotech ASSY-276-H7** - 48 channels, 6×8 electrode grid ✅
-- **Neuropixels 1.0** - High-density silicon probe ✅
+### Tested with:
+- **Cambridge Neurotech ASSY-276-H7** - 48 channels, 6×8 electrode grid
+- **Neuropixels 1.0** - High-density silicon probe
 - Custom probe configurations via JSON
 
-## Example
+## Example: Cambridge Neurotech H7
 
 ```python
 from probe_converter import ProbeConverter
@@ -52,13 +53,17 @@ result = converter.convert_probe(
 print(f"Converted {result['probe']['electrode_count']} electrodes")
 ```
 
-## Test Results
+## Project Structure
 
-All tests passing:
-- Cambridge Neurotech H7: ✅ 48 electrodes converted successfully
-- Neuropixels: ✅ 16 electrodes converted successfully
-- Batch conversion: ✅ Multiple files processed
+```
+probe_converter/
+├── src/                # Source code
+├── data/              # Data files
+├── tests/             # Test scripts
+├── docs/              # Documentation
+└── config.yaml        # Configuration
+```
 
 ## License
 
-MIT License
+MIT License - See LICENSE file for details
