@@ -254,11 +254,11 @@ The converter accepts **SpikeInterface/probeinterface format** JSON files:
 
 ## Documentation
 
-- [Installation Guide](installation.md) - Setup instructions
+
 - [Usage Guide](usage.md) - Detailed usage examples
 - [File Structure](file_structure_tree.md) - Project organization
-- [Full Documentation](DOCUMENTATION.md) - Comprehensive reference
-- [CLAUDE.md](CLAUDE.md) - Developer guide for Claude Code
+
+
 
 ## License
 
